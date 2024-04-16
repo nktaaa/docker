@@ -1,25 +1,20 @@
-# Use official Node.js 14 as base image
-FROM node:16.20.2-buster-slim
+# Dockerfile for React client
 
-# Set working directory
+# Build react client
+FROM node:10.16-alpine
+
+# Working directory be app
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+###  Installing dependencies
 
-# Copy the rest of the client code
+RUN npm install --silent
+
+# copy local files to app folder
 COPY . .
 
-RUN mv .env.example .env
+EXPOSE 3000
 
-# Build the client for production
-RUN npm run build
-
-# Expose port 8080 for the client
-EXPOSE 8080
-
-# Start the client
-CMD [ "npm", "run", "dev" ]
+CMD ["npm","start"]
